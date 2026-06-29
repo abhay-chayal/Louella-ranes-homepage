@@ -1487,69 +1487,130 @@
     }
 
     /* ─── RESPONSIVE ─── */
-    @media(max-width:960px) {
-      nav {
-        padding: 1.2rem 1.8rem;
-        width: 100%
-      }
+    /* ─── HAMBURGER ─── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 300;
+      background: none;
+      border: none;
+      flex-shrink: 0
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text-light);
+      border-radius: 2px;
+      transition: all .35s cubic-bezier(0.25,0.46,0.45,0.94)
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg) }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0) }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) }
 
+    /* ─── MOBILE DRAWER ─── */
+    .nav-drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: rgba(4,8,16,.97);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s cubic-bezier(0.25,0.46,0.45,0.94)
+    }
+    .nav-drawer.open {
+      display: flex;
+      opacity: 1;
+      pointer-events: all
+    }
+    .nav-drawer a {
+      font-size: 1.6rem;
+      font-weight: 400;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-family: var(--sans);
+      transition: color .3s, transform .3s
+    }
+    .nav-drawer a:hover { color: var(--text-light); transform: scale(1.05) }
+    .nav-drawer .drawer-btn {
+      margin-top: 1rem;
+      padding: .8rem 2.5rem;
+      border: 1px solid rgba(96,165,250,.4);
+      border-radius: 100px;
+      color: var(--blue-pale);
+      font-size: 0.9rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      background: rgba(96,165,250,.08)
+    }
+
+    /* ─── TABLET (≤1024px) ─── */
+    @media(max-width:1024px) {
+      .si, .ft-inner { padding: 0 2.5rem }
+      .books-grid { grid-template-columns: 1fr 1fr }
+    }
+
+    /* ─── MOBILE (≤768px) ─── */
+    @media(max-width:768px) {
+      nav { padding: 1.1rem 1.5rem }
       nav.scrolled {
-        top: 1rem;
-        width: calc(100% - 2rem);
-        padding: .8rem 1.5rem
+        top: .8rem;
+        width: calc(100% - 1.6rem);
+        padding: .75rem 1.4rem
       }
+      .nav-links { display: none }
+      .nav-btn { display: none }
+      .nav-hamburger { display: flex }
 
-      .nav-links {
-        display: none
-      }
+      .si, .ft-inner { padding: 0 1.4rem }
 
-      .si,
-      .ft-inner {
-        padding: 0 1.8rem
-      }
+      #hero { min-height: 100svh }
+      .hero-content { padding: 0 1.2rem; margin-top: 3rem }
 
-      .world-grid,
-      .about-grid,
-      .up-grid {
+      .moon-wrap { width: 180px; height: 180px }
+
+      .world-grid, .about-grid, .up-grid {
         grid-template-columns: 1fr;
-        gap: 3.5rem
-      }
-
-      .books-grid {
-        grid-template-columns: 1fr
-      }
-
-      .chars-grid {
-        grid-template-columns: 1fr
-      }
-
-      .rev-grid {
-        grid-template-columns: 1fr
-      }
-
-      .ft-top {
-        grid-template-columns: 1fr 1fr;
         gap: 3rem
       }
+      .books-grid { grid-template-columns: 1fr; gap: 2rem }
+      .chars-grid { grid-template-columns: 1fr 1fr }
+      .rev-grid { grid-template-columns: 1fr }
 
-      .nl-form {
-        flex-direction: column
-      }
+      .ft-top { grid-template-columns: 1fr 1fr; gap: 2.5rem }
 
+      .nl-form { flex-direction: column }
       .nl-input {
-        border-right: 1px solid rgba(96, 165, 250, .22);
+        border-right: 1px solid rgba(96,165,250,.22);
         border-bottom: none
       }
 
-      .moon-wrap {
-        width: 150px;
-        height: 150px
-      }
+      .orb-wrap { width: 260px; height: 260px }
+    }
 
-      .orb-wrap {
-        width: 280px;
-        height: 280px
-      }
+    /* ─── SMALL MOBILE (≤480px) ─── */
+    @media(max-width:480px) {
+      nav { padding: 1rem 1.2rem }
+      .nav-logo { font-size: 1.35rem }
+
+      .moon-wrap { width: 140px; height: 140px }
+
+      .chars-grid { grid-template-columns: 1fr }
+      .ft-top { grid-template-columns: 1fr; gap: 2rem }
+
+      .orb-wrap { width: 220px; height: 220px }
     }
   </style>
 </head>
@@ -1567,7 +1628,20 @@
       <li><a href="#upcoming">Coming Soon</a></li>
     </ul>
     <a href="#newsletter" class="nav-btn">Join the Journey</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE DRAWER -->
+  <div class="nav-drawer" id="navDrawer">
+    <a href="#world" class="drawer-link">The World</a>
+    <a href="#books" class="drawer-link">Books</a>
+    <a href="#about" class="drawer-link">Author</a>
+    <a href="#characters" class="drawer-link">Characters</a>
+    <a href="#upcoming" class="drawer-link">Coming Soon</a>
+    <a href="#newsletter" class="drawer-btn">Join the Journey</a>
+  </div>
 
   <!-- HERO -->
   <section id="hero">
@@ -2057,6 +2131,23 @@
     // Nav scroll
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 80), { passive: true });
+
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const navDrawer = document.getElementById('navDrawer');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navDrawer.classList.toggle('open');
+      document.body.style.overflow = navDrawer.classList.contains('open') ? 'hidden' : '';
+    });
+    // Close drawer when any link inside it is clicked
+    navDrawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navDrawer.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
 
     // Hero GSAP entrance & Cinematic Pin
     gsap.registerPlugin(ScrollTrigger);
