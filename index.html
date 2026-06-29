@@ -1591,10 +1591,21 @@
 
       .ft-top { grid-template-columns: 1fr 1fr; gap: 2.5rem }
 
-      .nl-form { flex-direction: column }
+      .nl-form {
+        flex-direction: column;
+        max-width: 100%;
+        width: 100%
+      }
       .nl-input {
         border-right: 1px solid rgba(96,165,250,.22);
-        border-bottom: none
+        border-bottom: none;
+        border-radius: 100px 100px 0 0;
+        text-align: center
+      }
+      .nl-btn {
+        border-radius: 0 0 100px 100px;
+        width: 100%;
+        padding: 1.2rem 2rem
       }
 
       .orb-wrap { width: 260px; height: 260px }
